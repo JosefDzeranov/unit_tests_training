@@ -3,7 +3,7 @@
 namespace Cashes.Tests
 {
     [TestFixture]
-    public class UnitTest1
+    public class CashTests
     {
         [Test]
         public void TestDollarMultiplication()

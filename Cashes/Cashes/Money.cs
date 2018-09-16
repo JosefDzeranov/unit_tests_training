@@ -2,42 +2,40 @@
 {
     public class Money
     {
-        protected readonly decimal _amount;
+        private readonly decimal _amount;
 
-        protected readonly string _currency;
-
-        public Money Times(int multiplier)
-        {
-            return null;
-        }
+        public string Currency { get; }
 
         public Money(decimal amount, string currency)
         {
-            _currency = currency;
+            Currency = currency;
             _amount = amount;
         }
 
-        public string Currency => _currency;
+        public Money Times(int multiplier)
+        {
+            return new Money(_amount * multiplier, Currency);
+        }
 
         public static Money Dollar(decimal amount)
         {
-            return new Dollar(amount, "USD");
+            return new Money(amount, "USD");
         }
 
         public static Money Franc(decimal amount)
         {
-            return new Franc(amount, "CHF");
+            return new Money(amount, "CHF");
         }
 
         public override bool Equals(object other)
         {
-            var money = (Money)other;
-            return _amount == money._amount && GetType().Equals(other.GetType());
+            var money = (Money) other;
+            return money != null && _amount == money._amount && Currency == money.Currency;
         }
 
         public override string ToString()
         {
-            return $"{_amount} {_currency}";
+            return $"{_amount} {Currency}";
         }
     }
 }

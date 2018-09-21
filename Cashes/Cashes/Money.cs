@@ -1,20 +1,20 @@
 ﻿namespace Cashes
 {
-    public class Money
+    public class Money : IExpression
     {
-        private readonly decimal _amount;
-
         public string Currency { get; }
+
+        public decimal Amount { get; }
 
         public Money(decimal amount, string currency)
         {
             Currency = currency;
-            _amount = amount;
+            Amount = amount;
         }
 
         public Money Times(int multiplier)
         {
-            return new Money(_amount * multiplier, Currency);
+            return new Money(Amount * multiplier, Currency);
         }
 
         public static Money Dollar(decimal amount)
@@ -29,13 +29,23 @@
 
         public override bool Equals(object other)
         {
-            var money = (Money) other;
-            return money != null && _amount == money._amount && Currency == money.Currency;
+            var money = (Money)other;
+            return money != null && Amount == money.Amount && Currency == money.Currency;
+        }
+
+        public Money Reduce(string toCurrency)
+        {
+            return this;
         }
 
         public override string ToString()
         {
-            return $"{_amount} {Currency}";
+            return $"{Amount} {Currency}";
+        }
+
+        public IExpression Plus(Money addend)
+        {
+            return new Sum(this, addend);
         }
     }
 }
